@@ -5,6 +5,6 @@ const MESSAGES_URL = `${BASE_URL}/messages`
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log('%c DOM Content Loaded and Parsed!', 'color: magenta');
-
+    test()
     fetch(USERS_URL).then(res => res.json()).then(users => console.log(users));
 })
