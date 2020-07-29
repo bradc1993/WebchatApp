@@ -4,7 +4,7 @@ class MessagesController < ApplicationController
 
     def index
         messages = Message.all
-        render json: messages
+        render json: messages.to_json(include: [user: { only: [:name]}])
     end
 
     def show
@@ -15,6 +15,8 @@ class MessagesController < ApplicationController
     #CREATE
 
     def new
+        messages = Message.all
+        message = Message.new
     end
 
     def create

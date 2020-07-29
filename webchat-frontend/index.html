@@ -1,20 +1,49 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <title>Webchat App</title>
-    
-  </head>
-  <body>
+
+</head>
+
+<body>
     <header>
-      <h2>Webchat App</h2>
+        <h2>Webchat App</h2>
     </header>
 
     <main>
-      <!-- Code goes here -->
+        <div class="container" id="login-container">
+            <form id="login-form">
+                <input type="text" name="name" value="" placeholder="Enter your name..." id="login-input" />
+                <input type="submit" name="submit" value="Log In" id="submit" />
+
+            </form>
+        </div>
+
+
+        <div class="container" id="home-screen">
+            
+            <div class="container" id="channel-display">
+                <ul class="list" id="channel-list">
+
+                </ul>
+            </div>
+            
+            
+            <div class="container" id="message-display">
+                <ul class="list" id="message-list">
+
+                </ul>
+            </div>
+        
+        </div>
+
     </main>
 
     <script src="./src/index.js"></script>
-    <script src='./src/test.js'></script>
-  </body>
+    </ /script src='./src/test.js'>
+    </ //script>
+</body>
+
 </html>
