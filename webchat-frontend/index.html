@@ -1,49 +1,88 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
+<!doctype html>
+<html lang="en">
 
 <head>
+    <!-- Required meta tags -->
     <meta charset="utf-8">
-    <title>Webchat App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- custom CSS -->
+    <link rel="stylesheet" type="text/css" href="./src/style.css">
+
+    <title>Webchat App</title>
 </head>
 
 <body>
-    <header>
-        <h2>Webchat App</h2>
-    </header>
 
-    <main>
-        <div class="container" id="login-container">
-            <form id="login-form">
-                <input type="text" name="name" value="" placeholder="Enter your name..." id="login-input" />
-                <input type="submit" name="submit" value="Log In" id="submit" />
 
-            </form>
+
+    <div class="container" id="login-container">
+        <div class="row my-auto">
+            <div class="col">
+                <form class="form" id="login-form">
+                    <input type="text" name="name" value="" class="form-control" placeholder="Enter your name..." id="login-input" />
+                    <br>
+                    <input type="submit" name="submit" value="Log In" class="btn btn-light btn-large btn-block" id="submit" />
+                </form>
+            </div>
         </div>
+    </div>
 
 
-        <div class="container" id="home-screen">
-            
-            <div class="container" id="channel-display">
-                <ul class="list" id="channel-list">
-
+    <div class="container" id="home-screen">
+        <div class="row">
+            <div class="col">
+                <ul class="channel-list" id="channel-list">
+                    <!--Channels display here-->
                 </ul>
             </div>
-            
-            
-            <div class="container" id="message-display">
+
+            <div class="col" id="message-display">
                 <ul class="list" id="message-list">
-
+                    <!--Messages display here-->
                 </ul>
             </div>
-        
+
+            <div class="col" id="user-display">
+                <ul class="list" id="user-list">
+                    <!--Users display here-->
+                </ul>
+            </div>
         </div>
 
-    </main>
 
+        <div class="row" id="chat-input" style="display:none">
+            <div class="col">
+                <form class="form">
+                    <div class="input-group">
+                        <input type="text" name="chat-field" id="chat-field" class="form-control"
+                            placeholder="Type your message here">
+                        <input type="submit" name="send" value="Send" id="sendBtn" class="btn btn-light"></input>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <!-- Optional JavaScript -->
     <script src="./src/index.js"></script>
-    </ /script src='./src/test.js'>
-    </ //script>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>

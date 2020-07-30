@@ -1,28 +1,37 @@
 class MessagesController < ApplicationController
+    before_action :set_message, only: [:show, :update, :destroy]
 
-    # READ
+    ## READ
 
     def index
         messages = Message.all
-        render json: messages.to_json(include: [user: { only: [:name]}])
+        render json: messages
+        # .to_json(include: [user: { only: [:name]}])
     end
 
     def show
-        message = Message.find(params[:id])
         render json: message
     end
 
-    #CREATE
+    ## CREATE
 
     def new
         messages = Message.all
         message = Message.new
     end
 
+    # POST /messages
     def create
+        message = Message.new(message_params)
+
+        if message.save
+            render json: message, status: :created, location: message
+        else
+            render json: message.errors, status: :unprocessable_entity
+        end
     end
 
-    #UPDATE
+    ## UPDATE
 
     def edit
     end
@@ -30,9 +39,19 @@ class MessagesController < ApplicationController
     def update
     end
 
-    #DESTROY
+    ## DESTROY
 
     def destroy
+    end
+
+    private
+
+    def set_message
+        message = Message.find(params[:id])
+    end
+
+    def message_params
+        params.require(:message).permit(:content, :user_id, :channel_id)
     end
 
 end

@@ -4,7 +4,7 @@ class ChannelsController < ApplicationController
 
     def index
         channels = Channel.all
-        render json: channels, include: [:messages, :users]
+        render json: channels
     end
 
     def show
