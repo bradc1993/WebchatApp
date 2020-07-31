@@ -12,8 +12,10 @@
 
     <!-- custom CSS -->
     <link rel="stylesheet" type="text/css" href="./src/style.css">
-
-    <title>Webchat App</title>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Pacifico" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    
+    <title>Hive</title>
 </head>
 
 <body>
@@ -23,28 +25,120 @@
     <div class="container" id="login-container">
         <div class="row my-auto">
             <div class="col">
-                <form class="form" id="login-form">
-                    <input type="text" name="name" value="" class="form-control" placeholder="Enter your name..." id="login-input" />
+                <form class="form-group" id="login-form">
+                    <input type="text" name="name" value="" class="form-control" placeholder="Enter your name..."
+                        class="form-control" id="login-input" />
                     <br>
-                    <input type="submit" name="submit" value="Log In" class="btn btn-light btn-large btn-block" id="submit" />
+                    <input type="submit" name="login" value="Log In" class="btn btn-light btn-large btn-block"
+                        id="submit" />
+                    </form>
+                    <button type="button" class="btn btn-light btn-large btn-block"
+                    id="create-account-btn" />Create New Account</button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" id="navbar">
+        <img class="navbar-brand logo" href="#" src="./imgs/noun_hive_2022627.svg" alt="Hive">
+        <h5 class="navbar-brand title">Hive</h5>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+            aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown" id="dropdown-menu" style="display:none;">
+                    <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">Profile Menu</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown01">
+                        <a class="dropdown-item" href="#" id="view-profile">View Profile</a>
+                        <a class="dropdown-item" href="#" id="edit-profile">Edit Profile</a>
+                        <a class="dropdown-item" href="#" id="log-out">Log Out</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container" id="show-profile" style="display:none;">
+        <div class="row my-auto" id="view-profile-row">
+            <div class="col" id="view-profile-col">
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="edit-profile-screen" style="display:none;">
+        <div class="row my-auto" id="edit-profile-row">
+            <div class="col" id="edit-profile-col">
+                <form class="form" id="edit-form">
+                    <div class="edit-user-group">
+                        <input type="text" name="name" id="edit-name-input" class="form-control"
+                            placeholder="Edit username...">
+                        <br>
+                        <input type="submit" name="send" value="Update" id="updateBtn"
+                            class="btn btn-light btn-large btn-block"></input>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 
 
-    <div class="container" id="home-screen">
-        <div class="row">
-            <div class="col">
-                <ul class="channel-list" id="channel-list">
-                    <!--Channels display here-->
-                </ul>
+    <div class="container" id="home-screen" style="display:none">
+        <div class="row h-100" id="home-screen-row">
+
+            <div class="col-md-4 col-xl-3">
+                <div class="card d-flex border-secondary" id="channel-card">
+                    <h5 class="card-header text-center">channel list</h5>
+                    <ul class="list-group list-group-flush mx-auto" id="channel-list">
+                        <!--Channels display here-->
+                    </ul>
+                    <div class="mt-auto">
+                        <div class="card-footer">
+                            <div class="dropdown">
+                                <p class="dropdown-toggle active" id="dropdownMenuButton" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    create new channel
+                                </p>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <form class="form-inline">
+                                        <div class="form-group alig">
+                                            <input type="text" class="form-control text-center" id="create-channel-form"
+                                                placeholder="title">
+                                        </div>
+                                        <button type="submit" class="btn btn-light btn-block text-center pb-0"
+                                            id="create-channel-button">create</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="col" id="message-display">
-                <ul class="list" id="message-list">
-                    <!--Messages display here-->
-                </ul>
+
+            <div class="col-md-8 col-xl-6" id="message-display">
+                <div class="card border-secondary" id="message-card">
+                    <h5 class="card-header text-center">messages</h5>
+                    <div class="card-body" id="message-list">
+                        <!--Messages display here-->
+                    </div>
+                    <div class=card-footer">
+
+                        <form class="form">
+                            <div class="input-group">
+                                <input type="text" name="chat-field" id="chat-field" class="form-control text-center"
+                                    placeholder="type your message here...">
+                                <input type="submit" name="send" value="Send" id="sendBtn"
+                                    class="btn btn-light"></input>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
             </div>
 
             <div class="col" id="user-display">
@@ -52,20 +146,12 @@
                     <!--Users display here-->
                 </ul>
             </div>
-        </div>
 
 
-        <div class="row" id="chat-input" style="display:none">
-            <div class="col">
-                <form class="form">
-                    <div class="input-group">
-                        <input type="text" name="chat-field" id="chat-field" class="form-control"
-                            placeholder="Type your message here">
-                        <input type="submit" name="send" value="Send" id="sendBtn" class="btn btn-light"></input>
-                    </div>
-                </form>
-            </div>
+
+
         </div>
+
 
     </div>
 

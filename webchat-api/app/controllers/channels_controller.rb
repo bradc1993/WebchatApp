@@ -18,6 +18,13 @@ class ChannelsController < ApplicationController
     end
 
     def create
+        channel = Channel.new(channel_params)
+
+        if channel.save
+            render json: channel, status: :created, location: channel
+        else
+            render json: channel.errors, status: :unprocessable_entity
+        end
     end
 
     #UPDATE
@@ -31,6 +38,12 @@ class ChannelsController < ApplicationController
     #DESTROY
 
     def destroy
+    end
+
+    private
+
+    def channel_params
+        params.require(:channel).permit(:title)
     end
 
 end

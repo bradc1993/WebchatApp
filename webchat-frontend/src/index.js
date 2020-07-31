@@ -15,10 +15,11 @@ document.addEventListener("DOMContentLoaded", () => {
     //function to open new WebSocket via ActionCable
     function openConnection() {
         return new WebSocket("ws://localhost:3000/cable")
+        console.log('success!')
     }
 
     //opening WebSocket for chat
-    const chatWebSocket = openConnection();
+    chatWebSocket = openConnection();
     chatWebSocket.onopen = (event) => {
         const subscribeMsg = { "command": "subscribe", "identifier": "{\"channel\":\"ChatMessagesChannel\"}" }
         chatWebSocket.send(JSON.stringify(subscribeMsg))
@@ -26,15 +27,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
     liveChatSocket(chatWebSocket);
 
-    //global variables for elements we'll be using
+    //GLOBAL VARIABLES
     loginContainer = document.getElementById('login-container');
     channelList = document.getElementById('channel-list');
     messageList = document.getElementById('message-list');
-    chatInput = document.getElementById('chat-input');
     chatField = document.getElementById('chat-field');
     sendBtn = document.getElementById('sendBtn');
+    dropdownMenu = document.getElementById('dropdown-menu');
+    viewProfileLink = document.getElementById('view-profile')
+    editProfileLink = document.getElementById('edit-profile')
+    logOutLink = document.getElementById('log-out')
+    homeScreenContainer = document.getElementById('home-screen')
+    viewProfileCol = document.getElementById('view-profile-col')
+    viewProfile = document.getElementById('show-profile')
+    editProfileScreen = document.getElementById('edit-profile-screen')
+    createChannelForm = document.getElementById('create-channel-form')
+    createChannelBtn = document.getElementById('create-channel-button')
+    createAccountBtn = document.getElementById('create-account-btn')
+    loginInput = document.getElementById('login-input')
 
-    //send Message to chatWebSocket upon clicking send button
+    //SEND BUTTON LISTENER
     sendBtn.onclick = () => {
         event.preventDefault();
 
@@ -42,21 +54,24 @@ document.addEventListener("DOMContentLoaded", () => {
             "command": "message",
             "identifier": "{\"channel\":\"ChatMessagesChannel\"}",
             "data": `{
-            \"action\": \"send_text\",
-            \"content\": \"${chatField.value}\",
-            \"user\": {
+                \"action\": \"send_text\",
+                \"content\": \"${chatField.value}\",
+                \"user\": {
                 \"name\": \"${currentUser.name}\"
-            }
-        }`
-        }
+                }
+            }`
+        };
+
+        console.log(msg)
 
         chatWebSocket.send(JSON.stringify(msg))
         chatField.value = ""
     }
 
-    //send array of all Users to logIn function
+    //SEND ALL USERS TO LOGIN
     fetch(USERS_URL).then(res => res.json()).then(users => logIn(users))
-})
+});
+
 
 //chatWebSocket receives Message from chatField
 function liveChatSocket(chatWebSocket) {
@@ -68,37 +83,108 @@ function liveChatSocket(chatWebSocket) {
             postNewMessage(result["message"])
         }
     }
-}
+};
 
 
 
-//upon clicking Log In, find the User by name and set to currentUser, then renderHomePage for currentUser
+
+//LOGIN
 function logIn(users) {
-    const loginForm = document.getElementById('login-form');
+    const logInForm = document.getElementById('login-form');
+    //const createAccountBtn = document.getElementById('create-account-btn');
 
-    loginForm.addEventListener("submit", (event) => {
+    logInForm.addEventListener("submit", (event) => {
         event.preventDefault();
+        event.stopImmediatePropagation();
         let nameInput = event.target.name.value;
+        console.log(nameInput)
         let returnArray = users.filter(user => user.name === nameInput);
-
-        //users.filter returns an array so we must pull the User object from that array
         currentUser = returnArray[0];
-
+        console.log(currentUser);
         renderHomePage(currentUser);
     })
+
+    createAccountBtn.addEventListener("click", () => {
+        createAccount(loginInput.value)
+    })
+
+};
+
+function createAccount(userName) {
+    console.log(userName)
+    fetch(USERS_URL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": 'application/json'
+        },
+        body: JSON.stringify({
+            name: userName
+        })
+    })
+    alert('Account created! Please log in.')
+    // const alert = document.createElement('div')
+    // alert.innerHTML = `<div class="alert alert-light">Account created!</div>`
+
 }
 
 
-//render the home page for current User
+
 function renderHomePage(currentUser) {
-    //hide login form and display chat input form
+    //HIDE LOGIN FORM/DISPLAY HOME PAGE ELEMENTS
+    editProfileScreen.style.display = "none";
     loginContainer.style.display = "none";
-    chatInput.style.display = "inline";
+    dropdownMenu.style.display = "inline";
+    homeScreenContainer.style.display = "block";
+
+    //PROFILE MENU EVENT LISTENERS
+    viewProfileLink.addEventListener("click", (e) => {
+        homeScreenContainer.style.display = "none";
+        viewProfile.style.display = "inline";
+
+        const profileName = document.createElement('h1')
+        profileName.innerHTML = `Name: ${currentUser.name}`
+        viewProfileCol.appendChild(profileName)
+    })
+    //WIP
+    editProfileLink.addEventListener("click", (e) => {
+        homeScreenContainer.style.display = "none";
+        editProfileScreen.style.display = "inline";
+        
+        const editForm = document.getElementById('edit-form')
+        const editInput = document.getElementById('edit-name-input')
+        
+        editForm.addEventListener("submit", (e) => {
+            event.preventDefault();
+
+            console.log(editInput.value)
+            fetch(USERS_URL + `/${currentUser.id}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json"
+                },
+                body: JSON.stringify({
+                    name: editInput.value
+                })
+            }).then(res => res.json()).then(response => console.log(response))
+        })
+    })
+    logOutLink.addEventListener("click", () => {
+        homeScreenContainer.style.display = "none";
+        editProfileScreen.style.display = "none";
+        viewProfile.style.display = "none";
+        channelList.innerHTML = ""
+        currentUser = ""
+
+        loginContainer.style.display = "inline-flex";
+    })
 
 
     //render channels the currentUser has messages in
     for (const channel of currentUser.channels) {
         const channelItem = document.createElement('li');
+        channelItem.className = "list-group-item"
         channelItem.innerText = channel.title
         channelItem.addEventListener("click", (event) => {
             //fetch all messages, filter to channel clicked, then render
@@ -111,7 +197,7 @@ function renderHomePage(currentUser) {
 }
 
 
-//fetching all messages, then send to filterMessagesToChannel function
+//FETCH ALL MESSAGES FOR CHANNEL
 function fetchAllMessages(currentChannel) {
     fetch(MESSAGES_URL)
         .then(res => res.json())
@@ -119,9 +205,8 @@ function fetchAllMessages(currentChannel) {
 };
 
 
-//filter all messages down to messages in current channel, then send to renderMessages function
+//MESSAGE TO CHANNEL FILTER
 function filterMessagesToChannel(allMessages, channel) {
-    //clear message list
     messageList.innerHTML = "";
 
     let channelMessages = allMessages.filter(message => message.channel_id == currentChannel.id);
@@ -129,24 +214,29 @@ function filterMessagesToChannel(allMessages, channel) {
 }
 
 
-//render filtered messages
+//RENDER MESSAGES
 function renderMessages(channelMessages) {
     for (const message of channelMessages) {
         //const messageUser = channelMessages.filter(message => message.user_id == currentUser.id)
 
-        const messageItem = document.createElement('p')
-        messageItem.innerHTML = `${message.content} -${message.user.name}`
+        const messageItem = document.createElement('div')
+        const messageInfo = document.createElement('small')
+        if (message.user.name == currentUser.name){
+            messageItem.innerHTML = `
+            <div class="user-message d-flex justify-content-end">${message.content}</div>`
+            messageInfo.innerHTML = `<small class="user-message-info d-flex justify-content-end text-muted mb-4">${message.user.name} - ${message.created_at}</small>`
+        } else {
+            messageItem.innerHTML = `
+            <div class="user-message d-flex justify-content-start">${message.content}</div>`
+            messageInfo.innerHTML = `<small class="user-message-info d-flex justify-content-start text-muted mb-4">${message.user.name} - ${message.created_at}</small>`
+        }
+        
+        messageItem.appendChild(messageInfo);
         messageList.appendChild(messageItem);
     }
 }
 
-
-
-
-
-
-
-function postNewMessage(message){
+function postNewMessage(message) {
     fetch(MESSAGES_URL, {
         method: "POST",
         headers: {
@@ -161,6 +251,10 @@ function postNewMessage(message){
     }).then(currentChannel => fetchAllMessages(currentChannel));
 }
 
+function createChannel() {
+
+}
+
 // function renderNewMessage(content) {
 //     const msg = `${currentUser.name}: ${content}`
 //     const newMsg = document.createElement("p")
@@ -169,7 +263,6 @@ function postNewMessage(message){
 //     messageList.appendChild(newMsg)
 // }
 
-//POST NEW MESSAGE THEN FETCH ALL instead of render ^
 
 // function fetchAllChannels() {
 //     fetch(CHANNELS_URL)

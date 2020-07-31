@@ -1,15 +1,48 @@
 html, body {
     height: 100%;
     margin: 0;
-    color: whitesmoke;
-	background: #7F7FD5;
-	background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
-	background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
+    color: rgb(16, 16, 16);
+	background: #ffdb9d;
+	background: -webkit-linear-gradient(to right, #ffdb9d, #ffb97b, #FA8072, #CD5C5C, #ac3836);
+    background: linear-gradient(to right, #ffdb9d, #ffb97b, #FA8072, #CD5C5C, #ac3836);
+    font-family: Montserrat, sans-serif;
 }
 
-li {
-    font-family: Tahoma, Geneva, sans-serif
+h5.card-header {
+    color:#343A40;
 }
+
+img {
+    max-width: 100%;
+    max-height: auto;
+}
+
+svg {
+    -webkit-filter: invert(100%); /* safari 6.0 - 9.0 */
+    filter: invert(100%);
+    max-width: 100%;
+    max-height: auto;
+}
+
+.title { 
+    font-family: Pacifico; 
+    font-size: 36px; 
+    font-style: normal; 
+    font-variant: normal; 
+    font-weight: 700; 
+    line-height: 23px;
+    cursor: pointer;
+}
+
+.invert { 
+    -webkit-filter: invert(.75); /* safari 6.0 - 9.0 */
+    filter: invert(.75);  
+}
+
+.logo {
+    height: 70px;
+}
+
 
 .container {
     display: flex;
@@ -19,11 +52,80 @@ li {
     align-content: center;
 }
 
-
-
 .row {
     margin-top: auto;
     margin-bottom: auto;
 }
 
+#home-screen-row {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    align-self: center;
+    align-content: center;
+    justify-self: center;
+    justify-items: center;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+#view-profile-row {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    align-self: center;
+    align-content: center;
+    justify-self: center;
+    justify-items: center;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+#view-profile-col {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    align-self: center;
+    align-content: center;
+    justify-self: center;
+    justify-items: center;
+    justify-content: center;
+}
+
+#edit-profile-row {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    align-self: center;
+    align-content: center;
+    justify-self: center;
+    justify-items: center;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+#edit-profile-col {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    align-self: center;
+    align-content: center;
+    justify-self: center;
+    justify-items: center;
+    justify-content: center;
+}
+
+#dropdown01 {
+    margin-right: 30px;
+}
+
+#channel-card {
+    height: 450px;
+    width: 220px;
+}
+
+#message-card {
+    height: 500px;
+    width: 600px;
+}
 
